@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chocolate Day - Valentine's Week</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Courgette&family=Lobster&display=swap" rel="stylesheet">
+    <style>
+        .chocolate-page {
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #4a1e1c, #8B4513, #D2691E);
+        }
+
+        .chocolate-content {
+            position: relative;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(139, 69, 19, 0.3);
+            backdrop-filter: blur(8px);
+            border: 2px solid rgba(210, 105, 30, 0.3);
+            max-width: 800px;
+            margin: 2rem auto;
+            text-align: center;
+        }
+
+        .chocolate-title {
+            font-family: 'Pacifico', cursive;
+            font-size: 4rem;
+            color: #4a1e1c;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            animation: meltEffect 3s ease-in-out infinite;
+        }
+
+        .chocolate-message {
+            font-family: 'Courgette', cursive;
+            font-size: 1.8rem;
+            line-height: 1.6;
+            color: #8B4513;
+            margin: 1.5rem 0;
+        }
+
+        .sweet-quote {
+            font-family: 'Lobster', cursive;
+            font-size: 2rem;
+            color: #D2691E;
+            margin: 2rem 0;
+            animation: sweetFade 4s ease-in-out infinite;
+        }
+
+        @keyframes meltEffect {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes sweetFade {
+            0%, 100% { opacity: 0.7; transform: translateY(0); }
+            50% { opacity: 1; transform: translateY(-5px); }
+        }
+
+        @keyframes floatingChocolates {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(var(--x), var(--y)) rotate(var(--rot)); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+
+        .chocolate-rain {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-chocolate {
+            position: absolute;
+            font-size: 30px;
+            animation: chocolateFall linear infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes chocolateFall {
+            0% {
+                transform: translateY(-50vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% {
+                transform: translateY(150vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .chocolate-image {
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(139, 69, 19, 0.3);
+            transition: transform 0.3s ease;
+            max-width: 400px;
+            margin: 2rem auto;
+            animation: floatImage 6s ease-in-out infinite;
+        }
+
+        .chocolate-border {
+            position: relative;
+            padding: 20px;
+            border: 3px solid #8B4513;
+            border-radius: 20px;
+            margin: 2rem 0;
+            overflow: hidden;
+        }
+
+        .chocolate-border::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(139, 69, 19, 0.2), transparent);
+            animation: borderGlow 3s linear infinite;
+        }
+
+        @keyframes borderGlow {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .heart-decor {
+            position: absolute;
+            font-size: 24px;
+            animation: heartBeat 2s ease-in-out infinite;
+        }
+
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="chocolate-page">
+        <div class="chocolate-rain" id="chocolateContainer"></div>
+        
+        <div class="container">
+            <div class="chocolate-content">
+                <h1 class="chocolate-title">Happy Chocolate Day</h1>
+                
+                <div class="chocolate-border">
+                    <p class="chocolate-message">Sweet, rich, and irresistible...</p>
+                    <span class="heart-decor" style="top: 10px; right: 20px;">❤️</span>
+                    <span class="heart-decor" style="bottom: 10px; left: 20px;">🍫</span>
+                </div>
+                
+                <div class="chocolate-border">
+                    <img src="../images/choclate.png" alt="Chocolate" class="chocolate-image">
+                </div>
+
+                <p class="chocolate-message">Life is like a box of chocolates,<br>and I'm so glad that you chose me!</p>
+                
+                <p class="sweet-quote">"Anything is good if it's made of chocolate" 🍫</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function createChocolateRain() {
+            const container = document.getElementById('chocolateContainer');
+            const emojis = ['🍫', '❤️', '💝', '💖', '😋', '🤎', '💕', '💫'];
+            
+            function createChocolate() {
+                const chocolate = document.createElement('div');
+                chocolate.className = 'floating-chocolate';
+                chocolate.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                chocolate.style.left = Math.random() * 100 + 'vw';
+                chocolate.style.animationDuration = (Math.random() * 5 + 3) + 's';
+                chocolate.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                container.appendChild(chocolate);
+
+                chocolate.addEventListener('animationend', () => {
+                    chocolate.remove();
+                });
+            }
+
+            // Create initial chocolates
+            for(let i = 0; i < 20; i++) {
+                createChocolate();
+            }
+
+            // Continue creating chocolates
+            setInterval(createChocolate, 300);
+        }
+
+        createChocolateRain();
+    </script>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propose Day - Valentine's Week</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Parisienne&display=swap" rel="stylesheet">
+    <style>
+        .propose-page {
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        }
+
+        .floating-rings {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .propose-content {
+            position: relative;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(255, 71, 87, 0.2);
+            backdrop-filter: blur(8px);
+            border: 2px solid rgba(255, 71, 87, 0.3);
+            max-width: 800px;
+            margin: 2rem auto;
+            text-align: center;
+        }
+
+        .propose-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 4rem;
+            color: #ff4757;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: glowText 2s ease-in-out infinite;
+        }
+
+        .propose-message {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            line-height: 1.6;
+            color: #ff6b6b;
+            margin: 1.5rem 0;
+        }
+
+        .romantic-text {
+            font-family: 'Parisienne', cursive;
+            font-size: 2rem;
+            color: #ff4757;
+            margin: 2rem 0;
+            animation: fadeInOut 4s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes floatRing {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .ring-animation {
+            animation: floatRing 4s ease-in-out infinite;
+        }
+
+        .heart-container {
+            position: relative;
+            margin: 2rem 0;
+        }
+
+        .floating-hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .propose-image {
+            position: relative;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(255, 71, 87, 0.3);
+            transition: transform 0.3s ease;
+            max-width: 400px;
+            margin: 2rem auto;
+            animation: float 6s ease-in-out infinite;
+            size: 30px;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .ring-border {
+            position: absolute;
+            width: 120%;
+            height: 120%;
+            top: -10%;
+            left: -10%;
+            animation: spin 20s linear infinite;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        .love-quote {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            color: #ff6b6b;
+            margin: 2rem 0;
+            padding: 1rem;
+            border-left: 4px solid #ff4757;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="propose-page">
+        <div class="floating-rings" id="ringsContainer"></div>
+        
+        <div class="container">
+            <div class="propose-content">
+                <h1 class="propose-title">Happy Propose Day</h1>
+                
+                <p class="propose-message">On this special day, I gather all my courage to tell you...</p>
+                
+                <div class="heart-container">
+                    <img src="../images/propose.png" alt="Propose" class="propose-image" height="200px" />
+                    <svg class="ring-border" viewBox="0 0 100 100">
+                        <defs>
+                            <path id="circle" d="M 50,50 m -37,0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"/>
+                        </defs>
+                        <text font-size="7">
+                            <textPath href="#circle">
+                                ❤️ Will You Be Mine Forever? ❤️ Will You Be Mine Forever? ❤️
+                            </textPath>
+                        </text>
+                    </svg>
+                </div>
+
+                <p class="romantic-text">Every day I fall in love with you more than before...</p>
+                
+                <svg class="ring-animation" width="100" height="100" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="40" fill="none" stroke="#ff4757" stroke-width="2"/>
+                    <circle cx="50" cy="50" r="30" fill="none" stroke="#ff6b6b" stroke-width="2"/>
+                    <text x="50" y="55" text-anchor="middle" font-size="30">💍</text>
+                </svg>
+
+                <p class="propose-message">Will you make me the happiest person alive?</p>
+                
+                <div class="love-quote">
+                    "In all the world there is no heart for me like yours.<br>
+                    In all the world there is no love for you like mine."
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function createFloatingRings() {
+            const symbols = ['💍', '❤️', '💝', '💕'];
+            const container = document.getElementById('ringsContainer');
+            
+            for(let i = 0; i < 30; i++) {
+                const ring = document.createElement('div');
+                ring.style.position = 'absolute';
+                ring.style.left = Math.random() * 100 + 'vw';
+                ring.style.top = Math.random() * 100 + 'vh';
+                ring.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                ring.style.opacity = Math.random() * 0.5 + 0.3;
+                ring.style.animation = `float ${Math.random() * 6 + 4}s ease-in-out infinite`;
+                ring.style.animationDelay = Math.random() * 5 + 's';
+                ring.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                container.appendChild(ring);
+            }
+        }
+
+        createFloatingRings();
+    </script>
+</body>
+</html>

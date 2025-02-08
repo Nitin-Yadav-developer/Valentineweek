@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Day - Valentine's Week</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="day-content" style="background: linear-gradient(to bottom right, #fff, #ffe6e6);">
+            <h1 style="color: #ff4757;">Happy Valentine's Day!</h1>
+            <p style="font-size: 1.2em; margin: 20px 0;">Finally, the day is here...</p>
+            <p style="font-size: 1.1em;">Every moment with you feels like Valentine's Day</p>
+            <p style="font-size: 1.1em;">You're the best thing that's ever happened to me ❤️</p>
+            
+            <!-- Special Valentine's Gallery -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0;">
+                <img src="../images/valentine1.jpg" alt="Valentine Memory 1" style="width: 100%; border-radius: 10px;">
+                <img src="../images/valentine2.jpg" alt="Valentine Memory 2" style="width: 100%; border-radius: 10px;">
+            </div>
+
+            <div style="margin: 20px 0; padding: 20px; border: 2px solid #ff4757; border-radius: 15px;">
+                <p style="color: #ff4757; font-size: 24px;">💑💘</p>
+                <p style="font-style: italic; color: #333; margin-top: 10px;">
+                    You're not just my Valentine,<br>
+                    You're my everything.<br>
+                    Today, tomorrow, and forever.
+                </p>
+            </div>
+
+            <button class="share-button" style="background: #ff4757;" 
+                    onmouseover="this.style.background='#ff6b6b'" 
+                    onmouseout="this.style.background='#ff4757'"
+                    onclick="shareOnWhatsApp('Valentine\'s Day', 'Happy Valentine\'s Day, my love! ❤️ You make every day special, but today is extra special because it\'s all about celebrating our love. You\'re my forever Valentine! 💑')">
+                Share Your Love on WhatsApp
+            </button>
+        </div>
+    </div>
+    <script src="../whatsapp.js"></script>
+</body>
+</html>

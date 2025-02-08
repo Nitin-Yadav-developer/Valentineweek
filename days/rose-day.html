@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rose Day - Valentine's Week</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .rose-page {
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ffe6ea, #ff8e8e);
+        }
+
+        .floating-petals {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .petal {
+            position: absolute;
+            animation: floatPetal 15s linear infinite;
+        }
+
+        @keyframes floatPetal {
+            0% {
+                transform: translateY(-10%) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .rose-content {
+            position: relative;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(255, 71, 87, 0.2);
+            backdrop-filter: blur(8px);
+            border: 2px solid rgba(255, 71, 87, 0.3);
+            max-width: 800px;
+            margin: 2rem auto;
+        }
+
+        .rose-title {
+            font-size: 3rem;
+            color: #ff4757;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+            animation: glowText 2s ease-in-out infinite;
+        }
+
+        @keyframes glowText {
+            0%, 100% { text-shadow: 0 0 10px rgba(255, 71, 87, 0.5); }
+            50% { text-shadow: 0 0 20px rgba(255, 71, 87, 0.8); }
+        }
+
+        .rose-message {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #666;
+            margin: 1rem 0;
+            text-align: center;
+        }
+
+        .rose-image-container {
+            position: relative;
+            margin: 2rem 0;
+            animation: floatImage 6s ease-in-out infinite;
+        }
+
+        @keyframes floatImage {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .heart-border {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 120%;
+            animation: rotateBorder 20s linear infinite;
+        }
+
+        @keyframes rotateBorder {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .rose-quote {
+            font-style: italic;
+            color: #ff4757;
+            margin: 2rem 0;
+            text-align: center;
+            font-size: 1.3rem;
+            animation: fadeInOut 4s ease-in-out infinite;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        .floating-emoji {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.7;
+            animation: floatingEmoji 8s linear infinite;
+            font-size: 24px;
+        }
+
+        @keyframes floatingEmoji {
+            0% {
+                transform: translate(var(--startX), 110vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translate(var(--endX), -10vh) rotate(var(--rotate));
+                opacity: 0;
+            }
+        }
+
+        .emoji-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="rose-page">
+        <div class="floating-petals" id="petalsContainer"></div>
+        <div class="emoji-container" id="emojiContainer"></div>
+        
+        <div class="container">
+            <div class="rose-content">
+                <h1 class="rose-title">Happy Rose Day</h1>
+                
+                <!-- Decorative Rose SVG -->
+                <img class="decorative-rose" src="../images/rose1.svg" alt="Decorative Rose" style="width: 100px; height: auto; margin: 0 auto;">
+
+                <p class="rose-message">Like a rose blooming in spring, you bring color and joy to my world.</p>
+                
+                <div class="rose-image-container">
+                    <!-- Heart Border SVG -->
+                    <img class="heart-border" src="../images/heart.png" alt="Heart Border" style="width: auto; height: auto;">
+                        
+                
+                    <img src="../images/rose.png" alt="Rose" style="max-width: 300px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                </div>
+
+                <p class="rose-message">Each petal represents a moment of joy you've brought to my life.</p>
+                
+                <p class="rose-quote">"A rose by any other name would smell as sweet, but none could be as sweet as you."</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create floating rose petals
+        function createPetals() {
+            const container = document.getElementById('petalsContainer');
+            const petalSVGs = [
+                '<svg width="20" height="20" viewBox="0 0 100 100"><path fill="#ff4757" d="M50,90 C10,90 10,50 10,50 C10,10 50,10 50,10 C50,10 90,10 90,50 C90,50 90,90 50,90 Z"/></svg>',
+                '<svg width="15" height="15" viewBox="0 0 100 100"><path fill="#ff6b6b" d="M50,90 C10,90 10,50 10,50 C10,10 50,10 50,10 C50,10 90,10 90,50 C90,50 90,90 50,90 Z"/></svg>'
+            ];
+
+            for(let i = 0; i < 30; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                petal.innerHTML = petalSVGs[Math.floor(Math.random() * petalSVGs.length)];
+                petal.style.left = Math.random() * 100 + 'vw';
+                petal.style.animationDelay = Math.random() * 15 + 's';
+                petal.style.opacity = Math.random() * 0.5 + 0.5;
+                container.appendChild(petal);
+            }
+        }
+
+        // Add emoji animation
+        function createFloatingEmojis() {
+            const emojis = ['❤️', '💝', '💖', '💗', '💓', '💞', '💕', '💘', '🌹', '😍', '🥰', '💑', '💏', '😘', '💋'];
+            const container = document.getElementById('emojiContainer');
+
+            function createEmoji() {
+                const emoji = document.createElement('div');
+                emoji.className = 'floating-emoji';
+                emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                
+                // Random start and end positions
+                const startX = Math.random() * 100 + 'vw';
+                const endX = (Math.random() - 0.5) * 50 + 'vw';
+                const rotate = Math.random() * 720 - 360 + 'deg';
+                
+                emoji.style.setProperty('--startX', startX);
+                emoji.style.setProperty('--endX', endX);
+                emoji.style.setProperty('--rotate', rotate);
+                emoji.style.left = startX;
+                emoji.style.animationDelay = Math.random() * 5 + 's';
+                emoji.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                
+                container.appendChild(emoji);
+                
+                // Remove emoji after animation completes
+                emoji.addEventListener('animationend', () => {
+                    emoji.remove();
+                });
+            }
+
+            // Create new emoji every 800ms
+            setInterval(createEmoji, 800);
+            
+            // Create initial batch of emojis
+            for(let i = 0; i < 15; i++) {
+                createEmoji();
+            }
+        }
+
+        // Initialize both animations
+        createPetals();
+        createFloatingEmojis();
+    </script>
+</body>
+</html>

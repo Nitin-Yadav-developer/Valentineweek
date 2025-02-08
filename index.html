@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Week</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Great+Vibes&family=Parisienne&family=Sacramento&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        h1{ font-family: 'Parisienne', cursive; font-size: 30px; }
+        
+         a{font-family: 'Great Vibes', cursive; font-size:20px;}
+        span{font-family: 'Dancing Script', cursive; font-size: 20px;}
+        /* { font-family: 'Dancing Script', cursive; } */
+      /* { font-family: 'Great Vibes', cursive; } */
+       /*  { font-family: 'Parisienne', cursive; } */
+        /* { font-family: 'Sacramento', cursive; } */
+        
+        .floating-svg {
+            position: fixed;
+            opacity: 0.7;
+            z-index: -1;
+            animation: float 15s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(20px, -20px) rotate(5deg); }
+            50% { transform: translate(-10px, 20px) rotate(-5deg); }
+            75% { transform: translate(-20px, -10px) rotate(3deg); }
+        }
+
+        .day-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 2rem 1rem;
+            transition: all 0.3s ease;
+        }
+        .day-card img {
+            width: 50px;
+            height: 50px;
+           
+            
+        }
+
+        .day-card svg {
+            width: 40px;
+            height: 40px;
+            transition: transform 0.3s ease;
+        }
+
+        .day-card:hover svg {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .day-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255,255,255,0.95);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        @keyframes roseFloat {
+            0%, 100% { transform: rotate(0deg) translateY(0); }
+            25% { transform: rotate(10deg) translateY(-5px); }
+            75% { transform: rotate(-10deg) translateY(5px); }
+        }
+
+        .rose-emoji {
+            position: absolute;
+            font-size: 24px;
+            animation: roseFloat 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .rose-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        #roseDay:hover .rose-emoji {
+            animation-duration: 1.5s;
+        }
+
+        .rose-emoji:nth-child(1) { top: -20px; left: 10%; animation-delay: 0s; }
+        .rose-emoji:nth-child(2) { top: 10px; right: 10%; animation-delay: 0.5s; }
+        .rose-emoji:nth-child(3) { bottom: -10px; left: 20%; animation-delay: 1s; }
+        .rose-emoji:nth-child(4) { bottom: -60px; left: 30%; animation-delay: 1s; }
+        .rose-emoji:nth-child(5) { bottom: -15px; left: 5%; animation-delay: 1s; }
+        .rose-emoji:nth-child(6) { bottom: -5px; right: 20%; animation-delay: 1.5s; }
+
+        @keyframes roseTyphoon {
+            0% { 
+                transform: rotate(0deg) translateX(30px) rotate(0deg) scale(1);
+                opacity: 0;
+            }
+            50% { 
+                transform: rotate(180deg) translateX(15px) rotate(-180deg) scale(0.8);
+                opacity: 1;
+            }
+            100% { 
+                transform: rotate(360deg) translateX(0px) rotate(-360deg) scale(0.6);
+                opacity: 0;
+            }
+        }
+
+        .rose-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+            perspective: 1000px;
+        }
+
+        .rose-typhoon {
+            position: absolute;
+            top: 2%;
+            left: 5%;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+        }
+
+        .rose-emoji {
+            position: absolute;
+            font-size: 20px;
+            animation: roseTyphoon 4s linear infinite;
+            transform-origin: center;
+        }
+
+        /* Generate 12 roses with different delays and starting positions */
+        .rose-emoji:nth-child(1) { animation-delay: 0s; }
+        .rose-emoji:nth-child(2) { animation-delay: 0.3s; }
+        .rose-emoji:nth-child(3) { animation-delay: 0.6s; }
+        .rose-emoji:nth-child(4) { animation-delay: 0.9s; }
+        .rose-emoji:nth-child(5) { animation-delay: 1.2s; }
+        .rose-emoji:nth-child(6) { animation-delay: 1.5s; }
+        .rose-emoji:nth-child(7) { animation-delay: 1.8s; }
+        .rose-emoji:nth-child(8) { animation-delay: 2.1s; }
+        .rose-emoji:nth-child(9) { animation-delay: 2.4s; }
+        .rose-emoji:nth-child(10) { animation-delay: 2.7s; }
+        .rose-emoji:nth-child(11) { animation-delay: 3.0s; }
+        .rose-emoji:nth-child(12) { animation-delay: 3.3s; }
+
+        #roseDay:hover .rose-emoji {
+            animation-duration: 2s;
+        }
+
+        .main-rose-image {
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease;
+        }
+
+        #roseDay:hover .main-rose-image {
+            transform: scale(1.1);
+        }
+
+        /* Add these new styles */
+        @keyframes ringScatter {
+            0% {
+                transform: translate(0, 0) rotate(0deg) scale(1);
+                opacity: 0;
+            }
+            25% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        .ring-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+        }
+
+        .ring-scatter {
+            position: absolute;
+            font-size: 24px;
+            pointer-events: none;
+            animation: ringScatter 2s ease-out infinite;
+            top: 50%;
+            left: 50%;
+            transform-origin: center;
+        }
+
+        .main-propose-image {
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease;
+        }
+
+        #proposeDay:hover .main-propose-image {
+            transform: scale(1.1);
+        }
+
+        #proposeDay:hover .ring-scatter {
+            animation-duration: 1.5s;
+        }
+
+        @keyframes chocolateScatter {
+            0% {
+                transform: translate(0, 0) rotate(0deg) scale(1);
+                opacity: 0;
+            }
+            25% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(0.6);
+                opacity: 0;
+            }
+        }
+
+        .chocolate-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+        }
+
+        .chocolate-scatter {
+            position: absolute;
+            font-size: 24px;
+            pointer-events: none;
+            animation: chocolateScatter 3s ease-out infinite;
+            top: 50%;
+            left: 50%;
+            transform-origin: center;
+        }
+
+        .main-chocolate-image {
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease;
+        }
+
+        #chocolateDay:hover .main-chocolate-image {
+            transform: scale(1.1);
+        }
+
+        #chocolateDay:hover .chocolate-scatter {
+            animation-duration: 2s;
+        }
+
+        @keyframes teddyScatter {
+            0% {
+                transform: translate(0, 0) rotate(0deg) scale(1);
+                opacity: 0;
+            }
+            25% {
+                opacity: 1;
+                transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(1.2);
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        .teddy-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+        }
+
+        .teddy-scatter {
+            position: absolute;
+            font-size: 24px;
+            pointer-events: none;
+            animation: teddyScatter 3s ease-out infinite;
+            top: 50%;
+            left: 50%;
+            transform-origin: center;
+        }
+
+        .main-teddy-image {
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease;
+        }
+
+        #teddyDay:hover .main-teddy-image {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        #teddyDay:hover .teddy-scatter {
+            animation-duration: 2s;
+        }
+
+        @keyframes handshakeScatter {
+            0% {
+                transform: translate(0, 0) rotate(0deg) scale(1);
+                opacity: 0;
+            }
+            25% {
+                opacity: 1;
+                transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(1.2);
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        .promise-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+        }
+
+        .handshake-scatter {
+            position: absolute;
+            font-size: 24px;
+            pointer-events: none;
+            animation: handshakeScatter 3s ease-out infinite;
+            top: 50%;
+            left: 50%;
+            transform-origin: center;
+        }
+
+        .main-promise-image {
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease;
+        }
+
+        #promiseDay:hover .main-promise-image {
+            transform: scale(1.1);
+        }
+
+        #promiseDay:hover .handshake-scatter {
+            animation-duration: 2s;
+        }
+
+        @keyframes hugScatter {
+            0% {
+                transform: translate(0, 0) rotate(0deg) scale(1);
+                opacity: 0;
+            }
+            25% {
+                opacity: 1;
+                transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(1.3);
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        .hug-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+        }
+
+        .hug-scatter {
+            position: absolute;
+            font-size: 24px;
+            pointer-events: none;
+            animation: hugScatter 3s ease-out infinite;
+            top: 50%;
+            left: 50%;
+            transform-origin: center;
+        }
+
+        .main-hug-image {
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease;
+        }
+
+        #hugDay:hover .main-hug-image {
+            transform: scale(1.2);
+        }
+
+        #hugDay:hover .hug-scatter {
+            animation-duration: 2s;
+        }
+
+        @keyframes kissScatter {
+            0% {
+                transform: translate(0, 0) rotate(0deg) scale(1);
+                opacity: 0;
+            }
+            25% {
+                opacity: 1;
+                transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(1.3);
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        .kiss-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+        }
+
+        .kiss-scatter {
+            position: absolute;
+            font-size: 24px;
+            pointer-events: none;
+            animation: kissScatter 3s ease-out infinite;
+            top: 50%;
+            left: 50%;
+            transform-origin: center;
+        }
+
+        .main-kiss-image {
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease;
+        }
+
+        #kissDay:hover .main-kiss-image {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        #kissDay:hover .kiss-scatter {
+            animation-duration: 1.8s;
+        }
+
+        @keyframes heartScatter {
+            0% {
+                transform: translate(0, 0) rotate(0deg) scale(1);
+                opacity: 0;
+            }
+            25% {
+                opacity: 1;
+                transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(1.4);
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        .valentine-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+        }
+
+        .heart-scatter {
+            position: absolute;
+            font-size: 24px;
+            pointer-events: none;
+            animation: heartScatter 3s ease-out infinite;
+            top: 50%;
+            left: 50%;
+            transform-origin: center;
+        }
+
+        .main-valentine-image {
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease;
+        }
+
+        #valentineDay:hover .main-valentine-image {
+            transform: scale(1.3);
+            color: #ff4757;
+        }
+
+        #valentineDay:hover .heart-scatter {
+            animation-duration: 1.5s;
+        }
+
+        .special.day-card {
+            background: rgba(255,255,255,0.95);
+            border: 2px solid #ff4757;
+            box-shadow: 0 8px 25px rgba(255,71,87,0.3);
+        }
+
+        .love-note {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: #ff4757;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(255, 71, 87, 0.2);
+            backdrop-filter: blur(8px);
+            border: 2px solid rgba(255, 71, 87, 0.3);
+            text-align: center;
+            animation: noteGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes noteGlow {
+            0%, 100% { box-shadow: 0 8px 32px rgba(255, 71, 87, 0.2); }
+            50% { box-shadow: 0 8px 32px rgba(255, 71, 87, 0.5); }
+        }
+
+        .photo-memories {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-photo {
+            position: absolute;
+            width: 120px;  /* Changed from 150px */
+            height: 120px; /* Changed from 150px */
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            animation: floatPhoto var(--duration) ease-in-out infinite;
+            opacity: 0;
+            background-size: cover;
+            background-position: center;
+            transform-origin: center;
+            background-repeat: no-repeat;
+            overflow: hidden;
+        }
+
+        .photo-frame {
+            border: 3px solid white; /* Reduced from 5px */
+            padding: 3px;            /* Reduced from 5px */
+            background: rgba(255, 255, 255, 0.9);
+            transform: rotate(var(--rotation));
+        }
+
+        @keyframes floatPhoto {
+            0% {
+                transform: translate(var(--startX), var(--startY)) rotate(var(--startRot)) scale(0.5);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.7;
+                transform: translate(var(--startX), var(--startY)) rotate(var(--startRot)) scale(1);
+            }
+            80% {
+                opacity: 0.7;
+                transform: translate(var(--endX), var(--endY)) rotate(var(--endRot)) scale(1);
+            }
+            100% {
+                transform: translate(var(--endX), var(--endY)) rotate(var(--endRot)) scale(0.5);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background SVGs -->
+    <svg class="floating-svg" style="top: 10%; left: 5%" width="50" height="50" viewBox="0 0 24 24">
+        <path fill="#ff4757" d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"/>
+    </svg>
+    <!-- Add more floating SVGs with different positions -->
+
+    <div class="container">
+        <h1>Valentine's Week Journey</h1>
+        <div class="love-note">
+            <p>My Dearest Love Tannu,</p>
+            <p>Every moment with you feels like a beautiful dream come true. You are the rhythm in my heartbeat, 
+               the smile in my days, and the love in my life. This Valentine's week is dedicated to showing you 
+               just how special you are to me.</p>
+            <p>Through virtual roses, chocolates, teddy bears, and promises, I want to express my endless love for you. 
+               You make every day feel like Valentine's Day, and I'm blessed to have you in my life.</p>
+            <p>Forever Yours,<br>❤️ Nitin Yadav</p>
+        </div>
+
+        <div class="photo-memories" id="photoContainer"></div>
+
+        <div class="timeline-container">
+            <div class="progress-bar">
+                <div class="progress" id="weekProgress"></div>
+            </div>
+            <div class="days-timeline">
+                <!-- Left side item -->
+                <div class="timeline-item left" data-date="2024-02-07">
+                    <div class="timeline-content">
+                        <a href="days/rose-day.html" class="day-card" id="roseDay" data-date="2025-02-07">
+                            <div class="rose-container">
+                                <div class="rose-typhoon">
+                                    <span class="rose-emoji">🌹</span>
+                                    <span class="rose-emoji">🌹</span>
+                                    <span class="rose-emoji">🌹</span>
+                                    <span class="rose-emoji">🌹</span>
+                                    <span class="rose-emoji">🌹</span>
+                                    <span class="rose-emoji">🌹</span>
+                                    <span class="rose-emoji">🌹</span>
+                                    <span class="rose-emoji">🌹</span>
+                                    <span class="rose-emoji">🌹</span>
+                                    <span class="rose-emoji">🌹</span>
+                                    <span class="rose-emoji">🌹</span>
+                                    <span class="rose-emoji">🌹</span>
+                                    <svg class="main-rose-image" viewBox="0 0 24 24" style="width: 40px; height: 40px;">
+                                        <path fill="currentColor" d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"/>
+                                    </svg>
+                                </div>
+                               
+                            </div>
+                            Rose Day
+                            <span class="date">Feb 7</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right side item -->
+                <div class="timeline-item right" data-date="2024-02-08">
+                    <div class="timeline-content">
+                        <a href="days/propose-day.html" class="day-card" id="proposeDay" data-date="2025-02-08">
+                            <div class="ring-container">
+                                <span class="ring-scatter" style="--tx: -50px; --ty: -50px; --rot: -45deg;">💍</span>
+                                <span class="ring-scatter" style="--tx: 50px; --ty: -40px; --rot: 45deg;">💍</span>
+                                <span class="ring-scatter" style="--tx: -30px; --ty: 50px; --rot: -90deg;">💍</span>
+                                <span class="ring-scatter" style="--tx: 40px; --ty: 40px; --rot: 90deg;">💍</span>
+                                <span class="ring-scatter" style="--tx: 0px; --ty: -60px; --rot: 0deg;">💍</span>
+                                <span class="ring-scatter" style="--tx: -45px; --ty: 0px; --rot: -60deg;">💍</span>
+                                <span class="ring-scatter" style="--tx: 45px; --ty: 0px; --rot: 60deg;">💍</span>
+                                <span class="ring-scatter" style="--tx: 0px; --ty: 60px; --rot: 180deg;">💍</span>
+                                <svg class="main-propose-image" viewBox="0 0 24 24" style="width: 40px; height: 40px;">
+                                    <path fill="currentColor" d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"/>
+                                </svg>
+                            </div>
+                            Propose Day
+                            <span class="date">Feb 8</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Left side item -->
+                <div class="timeline-item left" data-date="2024-02-09">
+                    <div class="timeline-content">
+                        <a href="days/chocolate-day.html" class="day-card" id="chocolateDay" data-date="2025-02-09">
+                            <div class="chocolate-container">
+                                <span class="chocolate-scatter" style="--tx: -40px; --ty: -30px; --rot: -45deg;">🍫</span>
+                                <span class="chocolate-scatter" style="--tx: 40px; --ty: -40px; --rot: 45deg;">🍫</span>
+                                <span class="chocolate-scatter" style="--tx: -30px; --ty: 40px; --rot: -90deg;">🍫</span>
+                                <span class="chocolate-scatter" style="--tx: 35px; --ty: 35px; --rot: 90deg;">🍫</span>
+                                <span class="chocolate-scatter" style="--tx: 0px; --ty: -50px; --rot: 0deg;">🍫</span>
+                                <span class="chocolate-scatter" style="--tx: -45px; --ty: 0px; --rot: -60deg;">🍫</span>
+                                <span class="chocolate-scatter" style="--tx: 45px; --ty: 0px; --rot: 60deg;">🍫</span>
+                                <span class="chocolate-scatter" style="--tx: 0px; --ty: 50px; --rot: 180deg;">🍫</span>
+                                <svg class="main-chocolate-image" viewBox="0 0 24 24" style="width: 40px; height: 40px;">
+                                    <path fill="currentColor" d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"/>
+                                </svg>
+                            </div>
+                            Chocolate Day
+                            <span class="date">Feb 9</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right side item -->
+                <div class="timeline-item right" data-date="2024-02-10">
+                    <div class="timeline-content">
+                        <a href="days/teddy-day.html" class="day-card" id="teddyDay" data-date="2025-02-10">
+                            <div class="teddy-container">
+                                <span class="teddy-scatter" style="--tx: -40px; --ty: -40px; --rot: -45deg;">🧸</span>
+                                <span class="teddy-scatter" style="--tx: 40px; --ty: -35px; --rot: 45deg;">🧸</span>
+                                <span class="teddy-scatter" style="--tx: -35px; --ty: 35px; --rot: -90deg;">🧸</span>
+                                <span class="teddy-scatter" style="--tx: 35px; --ty: 35px; --rot: 90deg;">🧸</span>
+                                <span class="teddy-scatter" style="--tx: 0px; --ty: -50px; --rot: 0deg;">🧸</span>
+                                <span class="teddy-scatter" style="--tx: -45px; --ty: 0px; --rot: -60deg;">🧸</span>
+                                <span class="teddy-scatter" style="--tx: 45px; --ty: 0px; --rot: 60deg;">🧸</span>
+                                <span class="teddy-scatter" style="--tx: 0px; --ty: 50px; --rot: 180deg;">🧸</span>
+                                <svg class="main-teddy-image" viewBox="0 0 24 24" style="width: 40px; height: 40px;">
+                                    <path fill="currentColor" d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"/>
+                                </svg>
+                            </div>
+                            Teddy Day
+                            <span class="date">Feb 10</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Left side item -->
+                <div class="timeline-item left" data-date="2024-02-11">
+                    <div class="timeline-content">
+                        <a href="days/promise-day.html" class="day-card" id="promiseDay" data-date="2025-02-11">
+                            <div class="promise-container">
+                                <span class="handshake-scatter" style="--tx: -40px; --ty: -40px; --rot: -45deg;">🤝</span>
+                                <span class="handshake-scatter" style="--tx: 40px; --ty: -35px; --rot: 45deg;">🤝</span>
+                                <span class="handshake-scatter" style="--tx: -35px; --ty: 35px; --rot: -90deg;">🤝</span>
+                                <span class="handshake-scatter" style="--tx: 35px; --ty: 35px; --rot: 90deg;">🤝</span>
+                                <span class="handshake-scatter" style="--tx: 0px; --ty: -50px; --rot: 0deg;">🤝</span>
+                                <span class="handshake-scatter" style="--tx: -45px; --ty: 0px; --rot: -60deg;">🤝</span>
+                                <span class="handshake-scatter" style="--tx: 45px; --ty: 0px; --rot: 60deg;">🤝</span>
+                                <span class="handshake-scatter" style="--tx: 0px; --ty: 50px; --rot: 180deg;">🤝</span>
+                                <svg class="main-promise-image" viewBox="0 0 24 24" style="width: 40px; height: 40px;">
+                                    <path fill="currentColor" d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"/>
+                                </svg>
+                            </div>
+                            Promise Day
+                            <span class="date">Feb 11</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right side item -->
+                <div class="timeline-item right" data-date="2024-02-12">
+                    <div class="timeline-content">
+                        <a href="days/hug-day.html" class="day-card" id="hugDay" data-date="2025-02-12">
+                            <div class="hug-container">
+                                <span class="hug-scatter" style="--tx: -40px; --ty: -40px; --rot: -45deg;">🫂</span>
+                                <span class="hug-scatter" style="--tx: 40px; --ty: -35px; --rot: 45deg;">🫂</span>
+                                <span class="hug-scatter" style="--tx: -35px; --ty: 35px; --rot: -90deg;">🫂</span>
+                                <span class="hug-scatter" style="--tx: 35px; --ty: 35px; --rot: 90deg;">🫂</span>
+                                <span class="hug-scatter" style="--tx: 0px; --ty: -50px; --rot: 0deg;">🫂</span>
+                                <span class="hug-scatter" style="--tx: -45px; --ty: 0px; --rot: -60deg;">🫂</span>
+                                <span class="hug-scatter" style="--tx: 45px; --ty: 0px; --rot: 60deg;">🫂</span>
+                                <span class="hug-scatter" style="--tx: 0px; --ty: 50px; --rot: 180deg;">🫂</span>
+                                <svg class="main-hug-image" viewBox="0 0 24 24" style="width: 40px; height: 40px;">
+                                    <path fill="currentColor" d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"/>
+                                </svg>
+                            </div>
+                            Hug Day
+                            <span class="date">Feb 12</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Left side item -->
+                <div class="timeline-item left" data-date="2024-02-13">
+                    <div class="timeline-content">
+                        <a href="days/kiss-day.html" class="day-card" id="kissDay" data-date="2025-02-13">
+                            <div class="kiss-container">
+                                <span class="kiss-scatter" style="--tx: -40px; --ty: -40px; --rot: -45deg;">💋</span>
+                                <span class="kiss-scatter" style="--tx: 40px; --ty: -35px; --rot: 45deg;">💋</span>
+                                <span class="kiss-scatter" style="--tx: -35px; --ty: 35px; --rot: -90deg;">💋</span>
+                                <span class="kiss-scatter" style="--tx: 35px; --ty: 35px; --rot: 90deg;">💋</span>
+                                <span class="kiss-scatter" style="--tx: 0px; --ty: -50px; --rot: 0deg;">💋</span>
+                                <span class="kiss-scatter" style="--tx: -45px; --ty: 0px; --rot: -60deg;">💋</span>
+                                <span class="kiss-scatter" style="--tx: 45px; --ty: 0px; --rot: 60deg;">💋</span>
+                                <span class="kiss-scatter" style="--tx: 0px; --ty: 50px; --rot: 180deg;">💋</span>
+                                <svg class="main-kiss-image" viewBox="0 0 24 24" style="width: 40px; height: 40px;">
+                                    <path fill="currentColor" d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"/>
+                                </svg>
+                            </div>
+                            Kiss Day
+                            <span class="date">Feb 13</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right side item -->
+                <div class="timeline-item right" data-date="2024-02-14">
+                    <div class="timeline-content">
+                        <a href="days/valentine-day.html" class="day-card special" id="valentineDay" data-date="2025-02-14">
+                            <div class="valentine-container">
+                                <span class="heart-scatter" style="--tx: -40px; --ty: -40px; --rot: -45deg;">❤️</span>
+                                <span class="heart-scatter" style="--tx: 40px; --ty: -35px; --rot: 45deg;">💖</span>
+                                <span class="heart-scatter" style="--tx: -35px; --ty: 35px; --rot: -90deg;">💗</span>
+                                <span class="heart-scatter" style="--tx: 35px; --ty: 35px; --rot: 90deg;">❤️</span>
+                                <span class="heart-scatter" style="--tx: 0px; --ty: -50px; --rot: 0deg;">💝</span>
+                                <span class="heart-scatter" style="--tx: -45px; --ty: 0px; --rot: -60deg;">💕</span>
+                                <span class="heart-scatter" style="--tx: 45px; --ty: 0px; --rot: 60deg;">💓</span>
+                                <span class="heart-scatter" style="--tx: 0px; --ty: 50px; --rot: 180deg;">💘</span>
+                                <svg class="main-valentine-image" viewBox="0 0 24 24" style="width: 40px; height: 40px;">
+                                    <path fill="currentColor" d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"/>
+                                </svg>
+                            </div>
+                            Valentine's Day
+                            <span class="date">Feb 14</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Add floating SVGs dynamically
+        const svgSymbols = ['❤️', '🌹', '🍫', '🧸', '🤝', '🫂', '💋', '💑','💞','🩷','😊','⭐'];
+        for(let i = 0; i < 20; i++) {
+            const svg = document.createElement('div');
+            svg.className = 'floating-svg';
+            svg.style.top = Math.random() * 100 + '%';
+            svg.style.left = Math.random() * 100 + '%';
+            svg.style.animationDelay = (Math.random() * 5) + 's';
+            svg.style.fontSize = (Math.random() * 20 + 20) + 'px';
+            svg.textContent = svgSymbols[Math.floor(Math.random() * svgSymbols.length)];
+            document.body.appendChild(svg);
+        }
+
+        function updateTimeline() {
+            const startDate = new Date('2025-02-07');
+            const endDate = new Date('2025-02-14');
+            const today = new Date();
+            
+            // Calculate progress percentage
+            const total = endDate - startDate;
+            const progress = Math.min(Math.max(today - startDate, 0), total);
+            const percentage = (progress / total) * 100;
+            
+            // Update progress bar
+            const progressBar = document.getElementById('weekProgress');
+            progressBar.style.height = `${percentage}%`;
+            
+            // Process timeline items
+            document.querySelectorAll('.timeline-item').forEach(item => {
+                const itemDate = new Date(item.dataset.date);
+                const dayStart = new Date(itemDate.setHours(0, 0, 0, 0));
+                const isEnabled = today >= dayStart;
+                
+                const link = item.querySelector('.day-card');
+                
+                if (!isEnabled) {
+                    // Handle future dates
+                    link.classList.add('disabled');
+                    if (link.hasAttribute('href')) {
+                        link.setAttribute('data-href', link.getAttribute('href'));
+                        link.removeAttribute('href');
+                    }
+                    
+                    // Update days until counter
+                    const daysUntil = Math.ceil((dayStart - today) / (1000 * 60 * 60 * 24));
+                    const daysText = daysUntil === 1 ? 'tomorrow' : `in ${daysUntil} days`;
+                    link.title = `Available ${daysText}`;
+                    
+                    // Ensure click handler is attached
+                    link.onclick = function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        alert(`This page will be available on ${itemDate.toLocaleDateString()}`);
+                        return false;
+                    };
+                } else {
+                    // Handle current/past dates
+                    link.classList.remove('disabled');
+                    if (link.hasAttribute('data-href')) {
+                        link.href = link.getAttribute('data-href');
+                        link.removeAttribute('data-href');
+                    }
+                    link.removeAttribute('title');
+                    link.onclick = null;
+                }
+            });
+        }
+
+        // Run immediately and set up interval
+        updateTimeline();
+        setInterval(updateTimeline, 60000);
+
+        // Global click handler
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.day-card.disabled')) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        }, true);
+
+        // Add this to your existing script section
+        function randomizeRings() {
+            const rings = document.querySelectorAll('.ring-scatter');
+            rings.forEach(ring => {
+                ring.style.setProperty('--tx', `${(Math.random() - 0.5) * 100}px`);
+                ring.style.setProperty('--ty', `${(Math.random() - 0.5) * 100}px`);
+                ring.style.setProperty('--rot', `${Math.random() * 360}deg`);
+                ring.style.animationDelay = `${Math.random() * 2}s`;
+            });
+        }
+
+        // Call initially and every few seconds
+        randomizeRings();
+        setInterval(randomizeRings, 2000);
+
+        function randomizeChocolates() {
+            const chocolates = document.querySelectorAll('.chocolate-scatter');
+            chocolates.forEach(chocolate => {
+                chocolate.style.setProperty('--tx', `${(Math.random() - 0.5) * 80}px`);
+                chocolate.style.setProperty('--ty', `${(Math.random() - 0.5) * 80}px`);
+                chocolate.style.setProperty('--rot', `${Math.random() * 360}deg`);
+                chocolate.style.animationDelay = `${Math.random() * 2}s`;
+            });
+        }
+
+        // Call initially and every few seconds
+        randomizeChocolates();
+        setInterval(randomizeChocolates, 2500);
+
+        function randomizeTeddies() {
+            const teddies = document.querySelectorAll('.teddy-scatter');
+            teddies.forEach(teddy => {
+                teddy.style.setProperty('--tx', `${(Math.random() - 0.5) * 90}px`);
+                teddy.style.setProperty('--ty', `${(Math.random() - 0.5) * 90}px`);
+                teddy.style.setProperty('--rot', `${Math.random() * 360}deg`);
+                teddy.style.animationDelay = `${Math.random() * 2}s`;
+            });
+        }
+
+        // Call initially and every few seconds
+        randomizeTeddies();
+        setInterval(randomizeTeddies, 2000);
+
+        function randomizeHandshakes() {
+            const handshakes = document.querySelectorAll('.handshake-scatter');
+            handshakes.forEach(handshake => {
+                handshake.style.setProperty('--tx', `${(Math.random() - 0.5) * 85}px`);
+                handshake.style.setProperty('--ty', `${(Math.random() - 0.5) * 85}px`);
+                handshake.style.setProperty('--rot', `${Math.random() * 360}deg`);
+                handshake.style.animationDelay = `${Math.random() * 2}s`;
+            });
+        }
+
+        // Call initially and every few seconds
+        randomizeHandshakes();
+        setInterval(randomizeHandshakes, 2200);
+
+        function randomizeHugs() {
+            const hugs = document.querySelectorAll('.hug-scatter');
+            hugs.forEach(hug => {
+                hug.style.setProperty('--tx', `${(Math.random() - 0.5) * 85}px`);
+                hug.style.setProperty('--ty', `${(Math.random() - 0.5) * 85}px`);
+                hug.style.setProperty('--rot', `${Math.random() * 360}deg`);
+                hug.style.animationDelay = `${Math.random() * 2}s`;
+            });
+        }
+
+        // Call initially and every few seconds
+        randomizeHugs();
+        setInterval(randomizeHugs, 2300);
+
+        function randomizeKisses() {
+            const kisses = document.querySelectorAll('.kiss-scatter');
+            kisses.forEach(kiss => {
+                kiss.style.setProperty('--tx', `${(Math.random() - 0.5) * 85}px`);
+                kiss.style.setProperty('--ty', `${(Math.random() - 0.5) * 85}px`);
+                kiss.style.setProperty('--rot', `${Math.random() * 360}deg`);
+                kiss.style.animationDelay = `${Math.random() * 2}s`;
+            });
+        }
+
+        // Call initially and every few seconds
+        randomizeKisses();
+        setInterval(randomizeKisses, 2400);
+
+        function randomizeHearts() {
+            const hearts = document.querySelectorAll('.heart-scatter');
+            hearts.forEach(heart => {
+                heart.style.setProperty('--tx', `${(Math.random() - 0.5) * 100}px`);
+                heart.style.setProperty('--ty', `${(Math.random() - 0.5) * 100}px`);
+                heart.style.setProperty('--rot', `${Math.random() * 360}deg`);
+                heart.style.animationDelay = `${Math.random() * 2}s`;
+            });
+        }
+
+        // Call initially and every few seconds
+        randomizeHearts();
+        setInterval(randomizeHearts, 2000);
+
+        function createFloatingPhotos() {
+            const container = document.getElementById('photoContainer');
+            // Add your photo paths here
+            const photos = [
+                'photos/Valentine_1.jpg',
+'photos/Valentine_2.jpg',
+'photos/Valentine_3.jpg',
+'photos/Valentine_4.jpg',
+'photos/Valentine_5.jpg',
+'photos/Valentine_6.jpg',
+'photos/Valentine_7.jpg',
+'photos/Valentine_8.jpg',
+'photos/Valentine_9.jpg',
+'photos/Valentine_10.jpg',
+'photos/Valentine_11.jpg',
+'photos/Valentine_12.jpg',
+'photos/Valentine_13.jpg',
+'photos/Valentine_14.jpg',
+'photos/Valentine_15.jpg',
+'photos/Valentine_16.jpg',
+'photos/Valentine_17.jpg',
+'photos/Valentine_18.jpg',
+'photos/Valentine_19.jpg',
+'photos/Valentine_20.jpg',
+'photos/Valentine_21.jpg',
+'photos/Valentine_22.jpg',
+'photos/Valentine_23.jpg',
+'photos/Valentine_24.jpg',
+'photos/Valentine_25.jpg',
+'photos/Valentine_26.jpg',
+'photos/Valentine_27.jpg',
+'photos/Valentine_28.jpg',
+'photos/Valentine_29.jpg',
+'photos/Valentine_30.jpg',
+'photos/Valentine_31.jpg',
+'photos/Valentine_32.jpg',
+'photos/Valentine_33.jpg',
+'photos/Valentine_34.jpg',
+'photos/Valentine_35.jpg',
+'photos/Valentine_36.jpg',
+'photos/Valentine_37.jpg',
+'photos/Valentine_38.jpg',
+'photos/Valentine_39.jpg',
+'photos/Valentine_40.jpg',
+'photos/Valentine_41.jpg',
+'photos/Valentine_42.jpg',
+'photos/Valentine_43.jpg',
+'photos/Valentine_44.jpg',
+'photos/Valentine_45.jpg',
+'photos/Valentine_46.jpg',
+'photos/Valentine_47.jpg',
+'photos/Valentine_48.jpg',
+'photos/Valentine_49.jpg',
+'photos/Valentine_50.jpg',
+'photos/Valentine_51.jpg',
+'photos/Valentine_52.jpg',
+'photos/Valentine_53.jpg',
+'photos/Valentine_54.jpg',
+'photos/Valentine_55.jpg',
+'photos/Valentine_56.jpg',
+'photos/Valentine_57.jpg',
+'photos/Valentine_58.jpg',
+'photos/Valentine_59.jpg',
+'photos/Valentine_60.jpg',
+'photos/Valentine_61.jpg',
+'photos/Valentine_62.jpg',
+'photos/Valentine_63.jpg',
+'photos/Valentine_64.jpg',
+'photos/Valentine_65.jpg',
+'photos/Valentine_66.jpg',
+'photos/Valentine_67.jpg',
+'photos/Valentine_68.jpg',
+'photos/Valentine_69.jpg',
+'photos/Valentine_70.jpg',
+'photos/Valentine_71.jpg',
+'photos/Valentine_72.jpg',
+               
+            ];
+
+            function createPhoto() {
+                const photo = document.createElement('div');
+                photo.className = 'floating-photo photo-frame';
+                
+                // Random position and animation parameters
+                const startX = Math.random() * 80 + 10 + 'vw';  // Adjusted to keep photos more in view
+                const startY = Math.random() * 80 + 10 + 'vh';
+                const endX = Math.random() * 80 + 10 + 'vw';
+                const endY = Math.random() * 80 + 10 + 'vh';
+                const startRot = Math.random() * 20 - 10 + 'deg'; // Reduced rotation
+                const endRot = Math.random() * 20 - 10 + 'deg';
+                const duration = (Math.random() * 3 + 8) + 's';   // Adjusted duration
+                
+                photo.style.setProperty('--startX', startX);
+                photo.style.setProperty('--startY', startY);
+                photo.style.setProperty('--endX', endX);
+                photo.style.setProperty('--endY', endY);
+                photo.style.setProperty('--startRot', startRot);
+                photo.style.setProperty('--endRot', endRot);
+                photo.style.setProperty('--duration', duration);
+                photo.style.setProperty('--rotation', (Math.random() * 15 - 7.5) + 'deg');
+                
+                const selectedPhoto = photos[Math.floor(Math.random() * photos.length)];
+                photo.style.backgroundImage = `url(${selectedPhoto})`;
+                photo.style.backgroundSize = 'contain'; // Changed from 'cover' to 'contain'
+                
+                container.appendChild(photo);
+                
+                photo.addEventListener('animationend', () => {
+                    photo.remove();
+                });
+            }
+
+            // Create initial batch
+            for(let i = 0; i < 5; i++) {  // Reduced from 5 to 4 photos
+                createPhoto();
+            }
+
+            // Continue creating photos
+            setInterval(createPhoto, 4000);  // Increased interval from 3000 to 4000
+        }
+
+        createFloatingPhotos();
+    </script>
+
+
+<script>
+    function checkLinks() {
+        let currentDate = new Date();
+
+        // Get all links with 'data-date' attribute
+        let links = document.querySelectorAll("a[data-date]");
+
+        links.forEach(link => {
+            // Get the activation date from the 'data-date' attribute
+            let activationDate = new Date(link.getAttribute("data-date"));
+
+            if (currentDate >= activationDate) {
+                link.removeAttribute("disabled"); // Enable the link
+                link.style.pointerEvents = "auto"; // Make it clickable
+                
+            } else {
+                link.setAttribute("disabled", "true"); // Keep it disabled
+                link.style.pointerEvents = "none"; // Prevent clicking
+                
+            }
+        });
+    }
+
+    // Check the date when the page loads
+    window.onload = checkLinks;
+
+    // Check the date every minute
+    setInterval(checkLinks, 60000); // 60000ms = 1 minute
+</script>
+
+</body>
+</html>

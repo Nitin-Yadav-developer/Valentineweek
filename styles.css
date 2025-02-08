@@ -1,0 +1,223 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #ff8e8e, #ffe6ea, #ff8e8e);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    text-align: center;
+    padding: 2rem;
+}
+
+h1 {
+    color: white;
+    margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+.days-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.day-card {
+    background: rgba(255,255,255,0.9);
+    padding: 2rem;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #ff4757;
+    font-weight: bold;
+    transition: transform 0.3s;
+    border:#ff4757  2px solid;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transform: none;
+    opacity: 1;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    backdrop-filter: blur(10px);
+}
+
+.day-card .date {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 0.5rem;
+}
+
+.day-card:hover {
+    transform: translateY(-5px);
+}
+
+.day-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.timeline-container {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+    min-height: 100vh;
+}
+
+.progress-bar {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: calc(100% - 100px);
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+    box-shadow: 0 0 10px rgba(255,255,255,0.3);
+    top: 50px;
+}
+
+.progress {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background: linear-gradient(to bottom, #ff4757, #ff6b6b);
+    transition: height 1s ease-in-out;
+    border-radius: 3px;
+    box-shadow: 0 0 15px rgba(255,71,87,0.5);
+}
+
+.days-timeline {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 6rem;
+    padding: 2rem 0;
+    justify-content: flex-start;
+}
+
+.timeline-item {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    min-height: 80px; /* Reduced from 120px for better spacing */
+    margin: 10px 0;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    width: 24px;
+    height: 24px;
+    background: white;
+    border: 4px solid #ff4757;
+    border-radius: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    box-shadow: 0 0 10px rgba(255,71,87,0.5);
+}
+
+.date {
+    position: absolute;
+    right: calc(50% + 30px);
+    color: white;
+    font-weight: bold;
+}
+
+.timeline-content {
+    position: relative;
+    width: 300px;
+}
+
+.timeline-item.left .timeline-content {
+    margin-right: auto;
+    margin-left: 0;
+    padding-right: 50px;
+    transform: translateX(-50px);
+}
+
+.timeline-item.right .timeline-content {
+    margin-left: auto;
+    margin-right: 0;
+    padding-left: 50px;
+    transform: translateX(50px);
+}
+
+.day-card.disabled {
+    opacity: 0.5;
+    pointer-events: all !important; /* Change to allow click events for custom handling */
+    filter: grayscale(1);
+    cursor: not-allowed !important;
+    position: relative;
+    background: rgba(200,200,200,0.9);
+}
+
+.day-card.disabled::after {
+    content: '🔒';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    z-index: 2;
+}
+
+.day-card.disabled:hover {
+    transform: none !important;
+    box-shadow: none !important;
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.timeline-item.left .day-card:hover {
+    transform: translateX(10px);
+}
+
+.timeline-item.right .day-card:hover {
+    transform: translateX(-10px);
+}
+
+@media (max-width: 768px) {
+    .timeline-container {
+        padding: 2rem 1rem;
+    }
+
+    .date {
+        font-size: 0.9rem;
+    }
+
+    .timeline-content {
+        width: 200px;
+    }
+
+    .timeline-item.left .timeline-content,
+    .timeline-item.right .timeline-content {
+        transform: translateX(0);
+    }
+    
+    .days-timeline {
+        gap: 4rem;
+    }
+}
