@@ -5,28 +5,222 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Promise Day - Valentine's Week</title>
     <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Cormorant+Garamond:wght@600&family=Playfair+Display&display=swap" rel="stylesheet">
+    <style>
+        .promise-page {
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ffe6ea, #ffd1dc);
+        }
+
+        .promise-content {
+            position: relative;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3rem;
+            border-radius: 25px;
+            box-shadow: 0 8px 32px rgba(255, 71, 87, 0.2);
+            backdrop-filter: blur(8px);
+            border: 3px solid rgba(255, 71, 87, 0.3);
+            max-width: 800px;
+            margin: 2rem auto;
+            text-align: center;
+        }
+
+        .promise-title {
+            font-family: 'Cinzel', serif;
+            font-size: 4rem;
+            color: #ff4757;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: glowPromise 3s ease-in-out infinite;
+        }
+
+        .promise-list {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            line-height: 1.8;
+            margin: 2rem 0;
+        }
+
+        .promise-item {
+            position: relative;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid #ff4757;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            transform-origin: left;
+            animation: promiseReveal 0.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        .promise-quote {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: #ff6b6b;
+            margin: 2rem 0;
+            font-style: italic;
+            animation: quoteFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes glowPromise {
+            0%, 100% { text-shadow: 0 0 10px rgba(255, 71, 87, 0.5); }
+            50% { text-shadow: 0 0 20px rgba(255, 71, 87, 0.8); }
+        }
+
+        @keyframes promiseReveal {
+            from {
+                transform: translateX(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes quoteFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating-emoji {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1;
+            animation: floatEmoji 8s linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes floatEmoji {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% {
+                transform: translateY(-20vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .infinity-symbol {
+            position: relative;
+            width: 200px;
+            height: 100px;
+            margin: 2rem auto;
+        }
+
+        .infinity-path {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: drawInfinity 4s ease-out forwards infinite;
+        }
+
+        @keyframes drawInfinity {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        .promise-image {
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(255, 71, 87, 0.3);
+            transition: transform 0.3s ease;
+            max-width: 400px;
+            margin: 2rem auto;
+            animation: imageFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes imageFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="day-content">
-            <h1>Happy Promise Day!</h1>
-            <p>My Promises to You:</p>
-            <div style="margin: 20px 0; text-align: left; padding: 0 20px;">
-                <p>💝 I promise to always be there for you</p>
-                <p>💝 I promise to make you smile every day</p>
-                <p>💝 I promise to love you unconditionally</p>
-                <p>💝 I promise to be your strength in tough times</p>
+    <div class="promise-page">
+        <div id="emojiContainer"></div>
+        
+        <div class="container">
+            <div class="promise-content">
+                <h1 class="promise-title">Happy Promise Day</h1>
+
+                <!-- Infinity Symbol SVG -->
+                <div class="infinity-symbol">
+                    <svg viewBox="0 0 100 50">
+                        <path class="infinity-path" fill="none" stroke="#ff4757" stroke-width="2"
+                              d="M25,25 C25,15 35,15 40,25 C45,35 55,35 60,25 C65,15 75,15 75,25 C75,35 65,35 60,25 C55,15 45,15 40,25 C35,35 25,35 25,25 Z" />
+                    </svg>
+                </div>
+
+                <div class="promise-list">
+                    <div class="promise-item" style="animation-delay: 0.2s">
+                        💝 I promise to be your strength in every moment
+                    </div>
+                    <div class="promise-item" style="animation-delay: 0.4s">
+                        💝 I promise to make you smile through all seasons
+                    </div>
+                    <div class="promise-item" style="animation-delay: 0.6s">
+                        💝 I promise to cherish our love forever
+                    </div>
+                    <div class="promise-item" style="animation-delay: 0.8s">
+                        💝 I promise to be yours faithfully and truly
+                    </div>
+                </div>
+
+                <div class="promise-image-container">
+                    <img src="../images/promisday.webp" alt="Promise" class="promise-image">
+                </div>
+
+                <p class="promise-quote">
+                    "My promise to you is a promise of forever, sealed with love that grows stronger each day."
+                </p>
             </div>
-            <img src="../images/promise.jpg" alt="Promise" style="max-width: 300px; margin: 20px 0;">
-            <div style="margin: 20px 0;">
-                <p style="color: #ff4757; font-size: 24px;">🤝❤️</p>
-                <p style="font-style: italic; color: #666;">Every promise is sealed with love</p>
-            </div>
-            <button class="share-button" onclick="shareOnWhatsApp('Promise Day', 'Happy Promise Day, my love! 🤝❤️ I promise to love you more each day, to cherish every moment with you, and to always keep you happy. These aren\'t just words, they\'re my heartfelt promises to you.')">
-                Share on WhatsApp
-            </button>
         </div>
     </div>
-    <script src="../whatsapp.js"></script>
+
+    <script>
+        function createFloatingEmojis() {
+            const emojis = ['🤝', '💝', '💖', '🤗', '✨', '💫', '💕', '💑', '⭐', '🌟'];
+            const container = document.getElementById('emojiContainer');
+            
+            function createEmoji() {
+                const emoji = document.createElement('div');
+                emoji.className = 'floating-emoji';
+                emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                
+                const startX = Math.random() * 100 + 'vw';
+                emoji.style.left = startX;
+                emoji.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                emoji.style.animationDuration = (Math.random() * 3 + 6) + 's';
+                emoji.style.animationDelay = Math.random() * 2 + 's';
+                
+                container.appendChild(emoji);
+                
+                emoji.addEventListener('animationend', () => {
+                    emoji.remove();
+                });
+            }
+
+            // Create initial batch
+            for(let i = 0; i < 15; i++) {
+                createEmoji();
+            }
+
+            // Continue creating emojis
+            setInterval(createEmoji, 1000);
+        }
+
+        createFloatingEmojis();
+
+        // Add sequential animation to promise items
+        document.querySelectorAll('.promise-item').forEach((item, index) => {
+            item.style.animationDelay = `${index * 0.2}s`;
+        });
+    </script>
 </body>
 </html>

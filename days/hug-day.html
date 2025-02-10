@@ -5,24 +5,252 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hug Day - Valentine's Week</title>
     <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&family=Indie+Flower&family=Caveat:wght@700&display=swap" rel="stylesheet">
+    <style>
+        .hug-page {
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+        }
+
+        .hug-content {
+            position: relative;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3rem;
+            border-radius: 30px;
+            box-shadow: 0 8px 32px rgba(255, 175, 189, 0.3);
+            backdrop-filter: blur(8px);
+            border: 3px solid rgba(255, 175, 189, 0.5);
+            max-width: 800px;
+            margin: 2rem auto;
+            text-align: center;
+        }
+
+        .hug-title {
+            font-family: 'Caveat', cursive;
+            font-size: 4.5rem;
+            color: #ff6b88;
+            margin-bottom: 2rem;
+            text-shadow: 3px 3px 6px rgba(255, 107, 136, 0.3);
+            animation: warmGlow 3s ease-in-out infinite;
+        }
+
+        .hug-message {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.8rem;
+            line-height: 1.6;
+            color: #ff8fa3;
+            margin: 1.5rem 0;
+            animation: floatText 5s ease-in-out infinite;
+        }
+
+        .hug-quote {
+            font-family: 'Indie Flower', cursive;
+            font-size: 2.2rem;
+            color: #ff6b88;
+            margin: 2rem 0;
+            animation: gentlePulse 4s ease-in-out infinite;
+        }
+
+        .heart-container {
+            position: relative;
+            margin: 3rem 0;
+        }
+
+        .hug-image {
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(255, 107, 136, 0.3);
+            max-width: 400px;
+            margin: 2rem auto;
+            animation: floatImage 6s ease-in-out infinite;
+            transition: transform 0.5s ease;
+        }
+
+        .hug-image:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+
+        @keyframes warmGlow {
+            0%, 100% { text-shadow: 0 0 15px rgba(255, 107, 136, 0.3); }
+            50% { text-shadow: 0 0 25px rgba(255, 107, 136, 0.6); }
+        }
+
+        @keyframes floatText {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        @keyframes gentlePulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+
+        .floating-hearts {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            animation: floatHeart var(--duration) ease-in-out infinite;
+            opacity: 0;
+        }
+
+        @keyframes floatHeart {
+            0% { transform: translate(var(--startX), 120vh) scale(0.3); opacity: 0; }
+            20% { opacity: 0.8; }
+            80% { opacity: 0.8; }
+            100% { transform: translate(var(--endX), -20vh) scale(1.2); opacity: 0; }
+        }
+
+        .hug-svg-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 2rem auto;
+            animation: rotateContainer 20s linear infinite;
+        }
+
+        @keyframes rotateContainer {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .love-circle {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            animation: pulseCircle 3s ease-in-out infinite;
+        }
+
+        @keyframes pulseCircle {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .floating-emoji {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            animation: floatEmoji 10s linear infinite;
+        }
+
+        @keyframes floatEmoji {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+        }
+
+        .hug-border {
+            position: relative;
+            padding: 2rem;
+            border: 3px dashed #ff8fa3;
+            border-radius: 20px;
+            margin: 2rem 0;
+            overflow: hidden;
+            animation: borderPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes borderPulse {
+            0%, 100% { border-color: #ff8fa3; }
+            50% { border-color: #ff6b88; }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="day-content">
-            <h1>Happy Hug Day!</h1>
-            <p>A warm hug can say what words cannot...</p>
-            <p>Sending you the tightest, warmest virtual hug 🤗</p>
-            <p>Because your hugs make everything better!</p>
-            <img src="../images/hug.jpg" alt="Hug" style="max-width: 300px; margin: 20px 0;">
-            <div style="margin: 20px 0;">
-                <p style="color: #ff4757; font-size: 24px;">🫂</p>
-                <p style="font-style: italic; color: #666;">A hug from you melts away all my worries</p>
+    <div class="hug-page">
+        <div id="emojiContainer"></div>
+        <div id="heartsContainer"></div>
+        
+        <div class="container">
+            <div class="hug-content">
+                <h1 class="hug-title">Happy Hug Day</h1>
+                
+                <div class="hug-svg-container">
+                    
+                    <svg class="love-circle" viewBox="0 0 100 100">
+                        <path fill="none" stroke="#ff6b88" stroke-width="2" d="M50,10 A20,20 0 0,1 90,50 A40,40 0 0,1 50,90 A40,40 0 0,1 10,50 A20,20 0 0,1 50,10" />
+                        <image href="../images/Hug-Emoji.png" x="15" y="15" height="70" width="70" preserveAspectRatio="xMidYMid meet" />
+                       
+                    </svg>
+                </div>
+
+                <div class="hug-border">
+                    <p class="hug-message">A warm embrace that melts away all worries...</p>
+                    <p class="hug-message">Sending you the tightest, warmest virtual hug 🤗</p>
+                </div>
+                
+                <div class="heart-container">
+                    <img src="../images/hug day.jpg" alt="Hug" class="hug-image">
+                </div>
+
+                <div class="hug-border">
+                    <p class="hug-quote">"A hug is like a boomerang - you get it back right away" 💝</p>
+                </div>
+                
+                <p class="hug-message">Because your hugs make everything better! 🫂</p>
             </div>
-            <button class="share-button" onclick="shareOnWhatsApp('Hug Day', 'Happy Hug Day, my darling! 🤗 Sending you the warmest virtual hug filled with all my love. Can\'t wait to give you a real one! Your hugs are my favorite place to be. 💝')">
-                Share on WhatsApp
-            </button>
         </div>
     </div>
-    <script src="../whatsapp.js"></script>
+
+    <script>
+        function createFloatingElements() {
+            const emojis = ['🫂', '🤗', '💝', '💖', '💗', '💓', '💕', '✨', '💫', '🌟'];
+            const container = document.getElementById('emojiContainer');
+            
+            function createEmoji() {
+                const emoji = document.createElement('div');
+                emoji.className = 'floating-emoji';
+                emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                emoji.style.left = Math.random() * 100 + 'vw';
+                emoji.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                emoji.style.animationDuration = (Math.random() * 5 + 8) + 's';
+                container.appendChild(emoji);
+                
+                emoji.addEventListener('animationend', () => {
+                    emoji.remove();
+                });
+            }
+
+            setInterval(createEmoji, 600);
+            for(let i = 0; i < 15; i++) createEmoji();
+        }
+
+        function createFloatingHearts() {
+            const container = document.getElementById('heartsContainer');
+            const colors = ['#ff6b88', '#ff8fa3', '#ffafbd', '#ffc3a0'];
+            
+            function createHeart() {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = `<svg width="20" height="20" viewBox="0 0 20 20">
+                    <path fill="${colors[Math.floor(Math.random() * colors.length)]}" 
+                          d="M10,3 C8,1 4,1 2,3 C0,5 0,8 2,10 L10,18 L18,10 C20,8 20,5 18,3 C16,1 12,1 10,3 Z"/>
+                </svg>`;
+                
+                const startX = Math.random() * 100 + 'vw';
+                const endX = (Math.random() - 0.5) * 50 + 'vw';
+                heart.style.setProperty('--startX', startX);
+                heart.style.setProperty('--endX', endX);
+                heart.style.setProperty('--duration', (Math.random() * 3 + 6) + 's');
+                heart.style.left = startX;
+                
+                container.appendChild(heart);
+                heart.addEventListener('animationend', () => heart.remove());
+            }
+
+            setInterval(createHeart, 800);
+            for(let i = 0; i < 10; i++) createHeart();
+        }
+
+        createFloatingElements();
+        createFloatingHearts();
+    </script>
 </body>
 </html>
