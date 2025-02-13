@@ -5,24 +5,515 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kiss Day - Valentine's Week</title>
     <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Courgette&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rouge+Script&family=Dancing+Script:wght@700&family=Tangerine:wght@700&display=swap" rel="stylesheet">
+    <style>
+        .kiss-page {
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        }
+
+        .kiss-content {
+            position: relative;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3rem;
+            border-radius: 30px;
+            box-shadow: 0 8px 32px rgba(255, 71, 87, 0.3);
+            backdrop-filter: blur(8px);
+            border: 3px solid rgba(255, 71, 87, 0.5);
+            max-width: 800px;
+            margin: 2rem auto;
+            text-align: center;
+        }
+
+        .kiss-title {
+            font-family: 'Rouge Script', cursive;
+            font-size: clamp(3rem, 8vw, 4.5rem);
+            background: linear-gradient(45deg, #ff4757, #ff9a9e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 3s infinite;
+            margin-bottom: 2rem;
+            text-shadow: 3px 3px 6px rgba(255, 71, 87, 0.3);
+        }
+
+        .kiss-message {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            line-height: 1.6;
+            color: #ff6b6b;
+            margin: 1.5rem 0;
+            animation: floatText 5s ease-in-out infinite;
+        }
+
+        .kiss-quote {
+            font-family: 'Tangerine', cursive;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            color: #ff4757;
+            margin: 2rem 0;
+            animation: gentlePulse 4s ease-in-out infinite;
+        }
+
+        .kiss-image-container {
+            position: relative;
+            margin: 3rem 0;
+        }
+
+        .kiss-image {
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(255, 71, 87, 0.3);
+            max-width: 400px;
+            margin: 2rem auto;
+            animation: floatImage 6s ease-in-out infinite;
+            transition: transform 0.5s ease;
+        }
+
+        .kiss-image:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+
+        @keyframes glowText {
+            0%, 100% { text-shadow: 0 0 15px rgba(255, 71, 87, 0.3); }
+            50% { text-shadow: 0 0 25px rgba(255, 71, 87, 0.6); }
+        }
+
+        @keyframes floatText {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        @keyframes gentlePulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+
+        .floating-kisses {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .kiss {
+            position: absolute;
+            animation: floatKiss var(--duration) ease-in-out infinite;
+            opacity: 0;
+        }
+
+        @keyframes floatKiss {
+            0% { transform: translate(var(--startX), 120vh) scale(0.3); opacity: 0; }
+            20% { opacity: 0.8; }
+            80% { opacity: 0.8; }
+            100% { transform: translate(var(--endX), -20vh) scale(1.2); opacity: 0; }
+        }
+
+        .kiss-svg-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 2rem auto;
+            animation: rotateContainer 20s linear infinite;
+        }
+
+        @keyframes rotateContainer {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .love-circle {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            animation: pulseCircle 3s ease-in-out infinite;
+        }
+
+        @keyframes pulseCircle {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .floating-emoji {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            animation: floatEmoji 10s linear infinite;
+        }
+
+        @keyframes floatEmoji {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+        }
+
+        .kiss-border {
+            position: relative;
+            padding: 2rem;
+            border: 3px dashed #ff6b6b;
+            border-radius: 20px;
+            margin: 2rem 0;
+            overflow: hidden;
+            animation: borderPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes borderPulse {
+            0%, 100% { border-color: #ff6b6b; }
+            50% { border-color: #ff4757; }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .floating-hearts-bg {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .heart-path {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: drawHeart 4s ease-out forwards infinite;
+            filter: drop-shadow(0 0 5px rgba(255, 71, 87, 0.5));
+        }
+
+        @keyframes drawHeart {
+            to { stroke-dashoffset: 0; }
+        }
+
+        .kiss-decoration {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            animation: spin-float 8s linear infinite;
+        }
+
+        @keyframes spin-float {
+            0% { transform: rotate(0deg) translate(0, 0); }
+            50% { transform: rotate(180deg) translate(10px, -10px); }
+            100% { transform: rotate(360deg) translate(0, 0); }
+        }
+
+        .ripple-effect {
+            position: absolute;
+            border: 2px solid #ff4757;
+            border-radius: 50%;
+            animation: ripple 3s linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes ripple {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(3); opacity: 0; }
+        }
+
+        .kiss-sparkle {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, #ff4757, transparent);
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { transform: scale(0) rotate(0deg); opacity: 0; }
+            50% { transform: scale(1) rotate(180deg); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .kiss-content {
+                padding: 2rem;
+                margin: 1rem;
+            }
+
+            .kiss-decoration {
+                width: 30px;
+                height: 30px;
+            }
+        }
+
+        .flying-kiss {
+            position: fixed;
+            pointer-events: none;
+            z-index: 3; /* Increased z-index to show above other elements */
+            opacity: 0;
+            width: 60px;  /* Increased size */
+            height: 60px;
+            animation: flyKiss var(--duration) cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes flyKiss {
+            0% {
+                transform: translate(-50%, -50%) scale(0.2) rotate(0deg);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.2) rotate(10deg);
+            }
+            60% {
+                opacity: 1;
+                transform: translate(var(--moveX), var(--moveY)) scale(1) rotate(var(--rotate));
+            }
+            100% {
+                transform: translate(var(--moveX), var(--moveY)) scale(2) rotate(var(--rotate));
+                opacity: 0;
+            }
+        }
+
+        .kiss-lips {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 10px rgba(255, 71, 87, 0.7));
+        }
+        
+
+        
+
+        #flyingKissContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1000;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="day-content">
-            <h1>Happy Kiss Day!</h1>
-            <p>A kiss is a secret told to the mouth instead of the ear...</p>
-            <p>Every kiss with you feels like our first kiss 💋</p>
-            <p>Sending you a thousand virtual kisses!</p>
-            <img src="../images/kiss.jpg" alt="Kiss" style="max-width: 300px; margin: 20px 0;">
-            <div style="margin: 20px 0;">
-                <p style="color: #ff4757; font-size: 24px;">💋💖</p>
-                <p style="font-style: italic; color: #666;">Each kiss is a promise of endless love</p>
+   
+    <div class="kiss-page">
+        
+        <div class="floating-hearts-bg" id="heartsBg"></div>
+        <div id="emojiContainer"></div>
+        <div id="kissesContainer"></div>
+        <div id="flyingKissContainer"></div>
+        
+        
+        <div class="container">
+            <div class="kiss-content">
+                <div class="decorative-frame">
+                    <svg class="heart-path" viewBox="0 0 100 100" width="100" height="100">
+                        <path fill="none" stroke="#ff4757" stroke-width="2"
+                              d="M50,30 C20,0 0,20 0,40 C0,60 20,70 50,90 C80,70 100,60 100,40 C100,20 80,0 50,30 Z"/>
+                    </svg>
+                </div>
+                <h1 class="kiss-title">Happy Kiss Day</h1>
+                
+                <div class="kiss-svg-container">
+                    <svg class="love-circle" viewBox="0 0 100 100">
+                        <path fill="none" stroke="#ff4757" stroke-width="2" 
+                              d="M50,10 A20,20 0 0,1 90,50 A40,40 0 0,1 50,90 A40,40 0 0,1 10,50 A20,20 0 0,1 50,10" />
+                              <image href="../images/kiss3.jpg" x="15" y="15" height="70" width="70" preserveAspectRatio="xMidYMid meet" />
+                    </svg>
+                </div>
+
+                <div class="kiss-border">
+                    <p class="kiss-message">A kiss that speaks a thousand words...</p>
+                    <p class="kiss-message">Sending you the sweetest, most loving kiss 😘</p>
+                </div>
+                
+                <div class="kiss-image-container">
+                    <img src="../images/kiss.jpg" alt="Kiss" class="kiss-image">
+                </div>
+
+                <div class="kiss-border">
+                    <p class="kiss-quote">"A kiss is a lovely trick designed by nature to stop speech when words become superfluous" 💝</p>
+                </div>
+                
+                <p class="kiss-message">Because your kisses make everything better! 💋</p>
             </div>
-            <button class="share-button" onclick="shareOnWhatsApp('Kiss Day', 'Happy Kiss Day, my love! 💋 Every kiss with you is magical. Sending you lots of virtual kisses until I can give you real ones! Love you forever 💖')">
-                Share on WhatsApp
-            </button>
         </div>
     </div>
-    <script src="../whatsapp.js"></script>
+
+    <script>
+        function createFloatingElements() {
+            const emojis = ['💋', '😘', '❤️', '💖', '💗', '💓', '💕', '✨', '💫', '🌟'];
+            const container = document.getElementById('emojiContainer');
+            
+            function createEmoji() {
+                const emoji = document.createElement('div');
+                emoji.className = 'floating-emoji';
+                emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                emoji.style.left = Math.random() * 100 + 'vw';
+                emoji.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                emoji.style.animationDuration = (Math.random() * 5 + 8) + 's';
+                container.appendChild(emoji);
+                
+                emoji.addEventListener('animationend', () => {
+                    emoji.remove();
+                });
+            }
+
+            setInterval(createEmoji, 600);
+            for(let i = 0; i < 15; i++) createEmoji();
+        }
+
+        function createFloatingKisses() {
+            const container = document.getElementById('kissesContainer');
+            const colors = ['#ff4757', '#ff6b6b', '#ff9a9e', '#fad0c4'];
+            
+            function createKiss() {
+                const kiss = document.createElement('div');
+                kiss.className = 'kiss';
+                kiss.innerHTML = `<svg width="20" height="20" viewBox="0 0 20 20">
+                    <path fill="${colors[Math.floor(Math.random() * colors.length)]}" 
+                          d="M10,3 C8,1 4,1 2,3 C0,5 0,8 2,10 L10,18 L18,10 C20,8 20,5 18,3 C16,1 12,1 10,3 Z"/>
+                </svg>`;
+                
+                const startX = Math.random() * 100 + 'vw';
+                const endX = (Math.random() - 0.5) * 50 + 'vw';
+                kiss.style.setProperty('--startX', startX);
+                kiss.style.setProperty('--endX', endX);
+                kiss.style.setProperty('--duration', (Math.random() * 3 + 6) + 's');
+                kiss.style.left = startX;
+                
+                container.appendChild(kiss);
+                kiss.addEventListener('animationend', () => kiss.remove());
+            }
+
+            setInterval(createKiss, 800);
+            for(let i = 0; i < 10; i++) createKiss();
+        }
+
+        function createDecorations() {
+            const container = document.querySelector('.kiss-content');
+            const positions = [
+                { top: '10px', left: '10px' },
+                { top: '10px', right: '10px' },
+                { bottom: '10px', left: '10px' },
+                { bottom: '10px', right: '10px' }
+            ];
+
+            positions.forEach(pos => {
+                const deco = document.createElement('div');
+                deco.className = 'kiss-decoration';
+                Object.assign(deco.style, pos);
+                deco.innerHTML = '💋';
+                container.appendChild(deco);
+
+                const ripple = document.createElement('div');
+                ripple.className = 'ripple-effect';
+                Object.assign(ripple.style, pos);
+                container.appendChild(ripple);
+            });
+        }
+
+        function createHeartBackground() {
+            const container = document.getElementById('heartsBg');
+            const colors = ['#ff4757', '#ff6b6b', '#ff9a9e'];
+            
+            function createHeart() {
+                const heart = document.createElement('div');
+                heart.className = 'floating-emoji';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+                heart.style.fontSize = (Math.random() * 30 + 10) + 'px';
+                heart.style.opacity = Math.random() * 0.5 + 0.1;
+                heart.innerHTML = '❤️';
+                heart.style.animationDuration = (Math.random() * 6 + 4) + 's';
+                container.appendChild(heart);
+
+                heart.addEventListener('animationend', () => heart.remove());
+            }
+
+            setInterval(createHeart, 300);
+            for(let i = 0; i < 20; i++) createHeart();
+        }
+
+        function addSparkles() {
+            const container = document.querySelector('.kiss-image-container');
+            
+            function createSparkle() {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'kiss-sparkle';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.animationDelay = Math.random() * 2 + 's';
+                container.appendChild(sparkle);
+
+                setTimeout(() => sparkle.remove(), 2000);
+            }
+
+            setInterval(createSparkle, 500);
+        }
+
+        function createFlyingKisses() {
+            const container = document.getElementById('flyingKissContainer');
+            
+            function createKiss() {
+                const kiss = document.createElement('div');
+                kiss.className = 'flying-kiss';
+                
+                const img = document.createElement('img');
+                img.src = '../images/kiss2.svg';
+                img.className = 'kiss-lips';
+                kiss.appendChild(img);
+
+                setInterval(() => {
+        let randomLeft = Math.random() * 90;
+        let randomTop = Math.random() * 90;
+
+        
+        kiss.style.left = randomLeft + "%";
+        kiss.style.top = randomTop + "%";
+    }, 1000); // Runs every 1 second
+
+                // Position kiss in center of screen initially
+                
+                // Calculate random end position (towards viewer)
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.min(window.innerWidth, window.innerHeight) * 0.8;
+                const moveX = Math.cos(angle) * distance;
+                const moveY = Math.sin(angle) * distance;
+                
+                // Random rotation
+                const rotate = (Math.random() * 40 - 20) + 'deg';
+                const duration = (Math.random() * 2 + 3) + 's'; // 3-5 seconds
+
+                kiss.style.setProperty('--moveX', `${moveX}px`);
+                kiss.style.setProperty('--moveY', `${moveY}px`);
+                kiss.style.setProperty('--rotate', rotate);
+                kiss.style.setProperty('--duration', duration);
+
+                container.appendChild(kiss);
+
+                // Create trail effect
+                const trail = kiss.cloneNode(true);
+                trail.classList.add('kiss-trail');
+                container.appendChild(trail);
+
+                kiss.addEventListener('animationend', () => kiss.remove());
+                setTimeout(() => trail.remove(), 1500);
+            }
+
+            // Create kisses more frequently
+            setInterval(createKiss, 800);
+            
+            // Initial batch
+            for(let i = 0; i < 5; i++) {
+                setTimeout(() => createKiss(), i * 300);
+            }
+        }
+
+        // Call all animation functions together
+        window.addEventListener('DOMContentLoaded', () => {
+            createFloatingElements();
+            createFloatingKisses();
+            createDecorations();
+            createHeartBackground();
+            addSparkles();
+            createFlyingKisses();
+        });
+    </script>
 </body>
 </html>
