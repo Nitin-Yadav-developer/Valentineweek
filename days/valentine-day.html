@@ -5,38 +5,673 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Valentine's Day - Valentine's Week</title>
     <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&family=Charm:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body{
+            margin: 3px;
+            padding: 10px;
+            border-radius: 10px;
+           
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+        }
+        .valentine-page {
+            border-radius: 15px;
+            position: relative;
+            min-height: 100vh;
+            background: linear-gradient(
+                45deg, 
+                #ff3366, 
+                #ff6b8b, 
+                #ffa3b1, 
+                #ffd1d9,
+                #ff8da1
+            );
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            overflow: hidden;
+        }
+
+        .love-content {
+            position: relative;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.92);
+            padding: 3rem;
+            border-radius: 30px;
+            box-shadow: 0 8px 32px rgba(255, 71, 87, 0.3);
+            backdrop-filter: blur(8px);
+            border: 3px solid rgba(255, 107, 139, 0.5);
+            max-width: 900px;
+            margin: 2rem auto;
+            text-align: center;
+        }
+
+        .valentine-title {
+            font-family: 'Charm', cursive;
+            font-size: clamp(3.5rem, 8vw, 5rem);
+            background: linear-gradient(45deg, #ff3366, #ff6b8b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 2rem;
+            text-shadow: 3px 3px 6px rgba(255, 71, 87, 0.2);
+            animation: titlePulse 3s ease-in-out infinite;
+        }
+
+        .love-message {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            line-height: 1.6;
+            color: #ff3366;
+            margin: 2rem 0;
+            animation: messageFloat 5s ease-in-out infinite;
+        }
+
+        .love-quote {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            font-weight: 300;
+            font-style: italic;
+            color: #ff6b8b;
+            margin: 2.5rem 0;
+            padding: 2rem;
+            border-left: 4px solid #ff3366;
+            background: rgba(255, 255, 255, 0.8);
+            animation: quoteGlow 4s ease-in-out infinite;
+        }
+
+        .heart-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 3rem auto;
+            animation: containerFloat 6s ease-in-out infinite;
+        }
+
+        .floating-hearts {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-heart {
+            position: absolute;
+            opacity: 0;
+            animation: heartFloat var(--duration) ease-in-out infinite;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { transform: scale(1); filter: brightness(1); }
+            50% { transform: scale(1.05); filter: brightness(1.2); }
+        }
+
+        @keyframes messageFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes quoteGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 107, 139, 0.2); }
+            50% { box-shadow: 0 0 30px rgba(255, 107, 139, 0.4); }
+        }
+
+        @keyframes heartFloat {
+            0% { 
+                transform: translate(var(--startX), var(--startY)) scale(0.2) rotate(0deg);
+                opacity: 0;
+            }
+            25% { opacity: 1; }
+            75% { opacity: 1; }
+            100% { 
+                transform: translate(var(--endX), var(--endY)) scale(1.5) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .love-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .gallery-item {
+            position: relative;
+            padding: 3%;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(255, 71, 87, 0.3);
+            transition: transform 0.5s ease;
+        }
+        .gallery-item img {
+            width: 200px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+
+        .love-button {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(45deg, #ff3366, #ff6b8b);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 2rem 0;
+            animation: buttonPulse 2s infinite;
+        }
+
+        @keyframes buttonPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(255, 51, 102, 0.5); }
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(255, 51, 102, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 107, 139, 0.2) 0%, transparent 50%);
+        }
+
+        .sparkles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .sparkle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: sparkleAnim var(--duration) ease-in-out infinite;
+        }
+
+        .love-bubbles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            animation: bubbleFloat var(--duration) ease-in-out infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes sparkleAnim {
+            0%, 100% { transform: scale(0) rotate(0deg); opacity: 0; }
+            50% { transform: scale(1) rotate(180deg); opacity: var(--opacity); }
+        }
+
+        @keyframes bubbleFloat {
+            0% { transform: translate(var(--startX), var(--startY)) scale(0.8); opacity: 0; }
+            50% { opacity: var(--opacity); }
+            100% { transform: translate(var(--endX), var(--endY)) scale(1.2); opacity: 0; }
+        }
+
+        .floating-images {
+            position: fixed;
+            width: 100vw; /* Changed from 100% to 100vw */
+            height: 100vh; /* Changed from 100% to 100vh */
+            pointer-events: none;
+            z-index: 0;
+            left: 0; /* Explicitly set left position */
+            top: 0;  /* Explicitly set top position */
+        }
+
+        .floating-image {
+            position: absolute;  /* Changed back to absolute */
+            width: 50px;
+            height: 50px;
+            opacity: 0;
+            animation: floatingImageAnim var(--duration) ease-in-out forwards;
+            pointer-events: none;
+            will-change: transform; /* Add performance optimization */
+            transform-origin: center center;
+        }
+
+        @keyframes imageFloat {
+            0% {
+                transform: translate(var(--startX), 120vh) rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+                transform: translate(var(--startX), var(--startY)) rotate(180deg) scale(1);
+            }
+            90% {
+                opacity: 0.8;
+                transform: translate(var(--endX), var(--endY)) rotate(360deg) scale(1);
+            }
+            100% {
+                transform: translate(var(--endX), -20vh) rotate(720deg) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        @keyframes sideFloat {
+            0% {
+                transform: translate(var(--startX), var(--y)) scale(0.8) rotate(0deg);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.7;
+                transform: translate(calc(var(--startX) + var(--moveX) * 0.3), var(--y)) scale(1) rotate(var(--rotate));
+            }
+            80% {
+                opacity: 0.7;
+                transform: translate(calc(var(--startX) + var(--moveX) * 0.7), var(--y)) scale(1) rotate(calc(var(--rotate) * 2));
+            }
+            100% {
+                transform: translate(calc(var(--startX) + var(--moveX)), var(--y)) scale(0.8) rotate(calc(var(--rotate) * 3));
+                opacity: 0;
+            }
+        }
+
+        @keyframes floatingImageAnim {
+            0% {
+                transform: translate3d(var(--startX), var(--startY), 0) scale(0.5) rotate(var(--startRotate));
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.8;
+                transform: translate3d(
+                    calc(var(--startX) + var(--moveX) * 0.2),
+                    calc(var(--startY) + var(--moveY) * 0.2),
+                    0
+                ) scale(1) rotate(calc(var(--startRotate) + var(--rotateAmount) * 0.2));
+            }
+            80% {
+                opacity: 0.8;
+                transform: translate3d(
+                    calc(var(--startX) + var(--moveX) * 0.8),
+                    calc(var(--startY) + var(--moveY) * 0.8),
+                    0
+                ) scale(1) rotate(calc(var(--startRotate) + var(--rotateAmount) * 0.8));
+            }
+            100% {
+                transform: translate3d(
+                    calc(var(--startX) + var(--moveX)),
+                    calc(var(--startY) + var(--moveY)),
+                    0
+                ) scale(0.5) rotate(calc(var(--startRotate) + var(--rotateAmount)));
+                opacity: 0;
+            }
+        }
+
+        /* Add this new class to ensure container is full width */
+        .full-screen-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .secret-trigger {
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+        }
+
+        .secret-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(255, 51, 102, 0.5);
+            z-index: 1000;
+            max-width: 90vw;
+            width: 400px;
+            text-align: center;
+            display: none;
+            animation: messagePopup 0.5s ease-out;
+            border: 3px solid #ff3366;
+        }
+
+        .secret-message.show {
+            display: block;
+        }
+
+        .secret-content {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            color: #ff3366;
+            margin: 1rem 0;
+            line-height: 1.6;
+        }
+
+        .close-secret {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #ff3366;
+        }
+
+        @keyframes messagePopup {
+            from {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 0;
+            }
+            to {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .secret-trigger:hover {
+            animation: pulseHeart 1s infinite;
+        }
+
+        @keyframes pulseHeart {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="day-content" style="background: linear-gradient(to bottom right, #fff, #ffe6e6);">
-            <h1 style="color: #ff4757;">Happy Valentine's Day!</h1>
-            <p style="font-size: 1.2em; margin: 20px 0;">Finally, the day is here...</p>
-            <p style="font-size: 1.1em;">Every moment with you feels like Valentine's Day</p>
-            <p style="font-size: 1.1em;">You're the best thing that's ever happened to me ❤️</p>
-            
-            <!-- Special Valentine's Gallery -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0;">
-                <img src="../images/valentine1.jpg" alt="Valentine Memory 1" style="width: 100%; border-radius: 10px;">
-                <img src="../images/valentine2.jpg" alt="Valentine Memory 2" style="width: 100%; border-radius: 10px;">
+    
+    <div class="valentine-page">
+        <div class="full-screen-container">
+            <div class="bg-overlay"></div>
+            <div class="floating-images" id="imageContainer"></div>
+            <div class="sparkles" id="sparklesContainer"></div>
+            <div class="love-bubbles" id="bubblesContainer"></div>
+            <div class="floating-hearts" id="heartsContainer"></div>
+        </div>
+        
+        <div class="love-content">
+            <h1 class="valentine-title">Happy Valentine's Day, My Love</h1>
+
+            <div class="heart-container">
+                <svg viewBox="0 0 100 100">
+                    <defs>
+                        <linearGradient id="loveGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#ff3366" />
+                            <stop offset="100%" style="stop-color:#ff6b8b" />
+                        </linearGradient>
+                    </defs>
+                    <path fill="url(#loveGradient)" d="M50,88 C25,63 0,47 0,25 C0,11 11,0 25,0 C35,0 45,8 50,17 C55,8 65,0 75,0 C89,0 100,11 100,25 C100,47 75,63 50,88" />
+                </svg>
             </div>
 
-            <div style="margin: 20px 0; padding: 20px; border: 2px solid #ff4757; border-radius: 15px;">
-                <p style="color: #ff4757; font-size: 24px;">💑💘</p>
-                <p style="font-style: italic; color: #333; margin-top: 10px;">
-                    You're not just my Valentine,<br>
-                    You're my everything.<br>
-                    Today, tomorrow, and forever.
-                </p>
+            <p class="love-message">In the garden of life, you're my most beautiful flower.</p>
+            <p class="love-message">Every heartbeat whispers your name, every moment sparkles with your love.</p>
+
+            <div class="love-quote">
+                "In all the world, there is no heart for me like yours.<br>
+                In all the world, there is no love for you like mine."
             </div>
 
-            <button class="share-button" style="background: #ff4757;" 
-                    onmouseover="this.style.background='#ff6b6b'" 
-                    onmouseout="this.style.background='#ff4757'"
-                    onclick="shareOnWhatsApp('Valentine\'s Day', 'Happy Valentine\'s Day, my love! ❤️ You make every day special, but today is extra special because it\'s all about celebrating our love. You\'re my forever Valentine! 💑')">
-                Share Your Love on WhatsApp
-            </button>
+            <div class="love-gallery">
+                <!-- Add your gallery images here -->
+                <div class="gallery-item">
+                    <img src="../photos/Valentine_10.jpg" alt="Love Image">
+                    <img src="../photos/Valentine_11.jpg" alt="Valentine's Day Image">
+                    <img src="../photos/Valentine_12.jpg" alt="Couple Image">
+                </div>
+            </div>
+             
+            <p class="love-message">You're not just my Valentine,<br>you're my everything, my always, my forever. ❤️</p>
+            <p class="love-message">
+                <span class="secret-trigger" onclick="checkSecret()">❤️</span>
+            </p>
+            <p style="font-style: italic; font-weight: strong; text-align: center; color:red; font-size: xx-small;"><b>Hint:</b>There is a secret, Find it</p>
         </div>
     </div>
-    <script src="../whatsapp.js"></script>
+
+    <div class="secret-message" id="secretMessage">
+        <button class="close-secret" onclick="closeSecret()">×</button>
+        <div class="secret-content">
+            <p>My dearest Tannu,</p>
+            <p>You are the most precious gift life has given me. Every moment with you is pure magic.</p>
+            <p>I love you more than words can express. You're my today and all of my tomorrows.</p>
+            <p>Forever yours,<br>Nitin ❤️</p>
+            
+            <img src="../images/ring.png" alt="Valentine's Day Image" style="max-width: 100%;  height:100px; border-radius: 10px; margin-top: 1rem;">
+            <p>This is  for you My Love.</p>
+        </div>
+    </div>
+
+    <script>
+        // Replace existing animation creation functions with these improved versions
+        function createFloatingHearts(intense = false) {
+            const container = document.getElementById('heartsContainer');
+            const colors = ['#ff3366', '#ff6b8b', '#ff8da1', '#ffb3c1'];
+            
+            function createHeart() {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                
+                // New distribution logic to cover entire width
+                const startX = Math.random() * 100 + 'vw';
+                const endX = ((Math.random() - 0.5) * 100) + 'vw'; // This allows movement to both left and right
+                const duration = Math.random() * 4 + 6;
+                
+                heart.style.setProperty('--startX', startX);
+                heart.style.setProperty('--startY', '110vh');
+                heart.style.setProperty('--endX', endX);
+                heart.style.setProperty('--endY', '-10vh');
+                heart.style.setProperty('--duration', `${duration}s`);
+                
+                heart.innerHTML = `<svg width="20" height="20" viewBox="0 0 100 100">
+                    <path fill="${colors[Math.floor(Math.random() * colors.length)]}" 
+                          d="M50,88 C25,63 0,47 0,25 C0,11 11,0 25,0 C35,0 45,8 50,17 C55,8 65,0 75,0 C89,0 100,11 100,25 C100,47 75,63 50,88" />
+                </svg>`;
+                
+                container.appendChild(heart);
+                heart.addEventListener('animationend', () => heart.remove());
+
+                // Increase frequency for intense mode
+                if (intense) {
+                    heart.style.setProperty('--duration', `${Math.random() * 2 + 2}s`);
+                }
+            }
+
+            // Create hearts more frequently
+            const frequency = intense ? 100 : 200;
+            const initialHearts = intense ? 30 : 20;
+            
+            setInterval(createHeart, frequency);
+            for(let i = 0; i < initialHearts; i++) {
+                setTimeout(() => createHeart(), i * 150);
+            }
+        }
+
+        function createSparkles() {
+            const container = document.getElementById('sparklesContainer');
+            
+            function createSparkle() {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                
+                // Ensure coverage of entire width
+                sparkle.style.left = Math.random() * 100 + 'vw';
+                sparkle.style.top = Math.random() * 100 + 'vh';
+                sparkle.style.width = Math.random() * 3 + 'px';
+                sparkle.style.height = sparkle.style.width;
+                sparkle.style.setProperty('--duration', (Math.random() * 2 + 1) + 's');
+                sparkle.style.setProperty('--opacity', Math.random() * 0.5 + 0.3);
+                
+                container.appendChild(sparkle);
+                setTimeout(() => sparkle.remove(), 3000);
+            }
+
+            // Create sparkles more frequently
+            setInterval(createSparkle, 50);
+            
+            // Create more initial sparkles
+            for(let i = 0; i < 40; i++) createSparkle();
+        }
+
+        function createBubbles() {
+            const container = document.getElementById('bubblesContainer');
+            
+            function createBubble() {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                
+                const size = Math.random() * 100 + 50;
+                bubble.style.width = size + 'px';
+                bubble.style.height = size + 'px';
+                
+                // Ensure full width coverage
+                const startX = Math.random() * 100 + 'vw';
+                const startY = Math.random() * 100 + 'vh';
+                const moveX = (Math.random() - 0.5) * window.innerWidth + 'px';
+                const moveY = (Math.random() - 0.5) * window.innerHeight + 'px';
+                
+                bubble.style.setProperty('--startX', startX);
+                bubble.style.setProperty('--startY', startY);
+                bubble.style.setProperty('--endX', moveX);
+                bubble.style.setProperty('--endY', moveY);
+                bubble.style.setProperty('--duration', (Math.random() * 5 + 5) + 's');
+                bubble.style.setProperty('--opacity', Math.random() * 0.3 + 0.1);
+                
+                container.appendChild(bubble);
+                setTimeout(() => bubble.remove(), 10000);
+            }
+
+            // Create bubbles more frequently
+            setInterval(createBubble, 300);
+            
+            // Create more initial bubbles
+            for(let i = 0; i < 25; i++) {
+                setTimeout(() => createBubble(), i * 100);
+            }
+        }
+
+        function createFloatingImages() {
+            const container = document.getElementById('imageContainer');
+            const images = [
+                '../images/cupid.png',
+                '../images/letter.png',
+                '../images/lovebird.png',
+                '../images/rose2.png',
+                '../images/heartballon.png',
+                '../images/choclate.png'
+            ];
+            
+            function createImage() {
+                const img = document.createElement('img');
+                img.className = 'floating-image';
+                img.src = images[Math.floor(Math.random() * images.length)];
+                
+                // Updated positioning logic to ensure full coverage
+                const screenWidth = window.innerWidth;
+                const screenHeight = window.innerHeight;
+                
+                // Random starting position including negative space
+                const startX = (Math.random() * (screenWidth + 200) - 100) + 'px';
+                const startY = (Math.random() * (screenHeight + 200) - 100) + 'px';
+                
+                // Ensure movement covers entire screen
+                const moveX = (Math.random() - 0.5) * screenWidth * 1.5 + 'px';
+                const moveY = (Math.random() - 0.5) * screenHeight * 1.5 + 'px';
+                
+                const startRotate = Math.random() * 360;
+                const rotateAmount = Math.random() * 720 - 220;
+                const duration = (Math.random() * 3 + 8) + 's';
+                
+                img.style.setProperty('--startX', startX);
+                img.style.setProperty('--startY', startY);
+                img.style.setProperty('--moveX', moveX);
+                img.style.setProperty('--moveY', moveY);
+                img.style.setProperty('--startRotate', startRotate + 'deg');
+                img.style.setProperty('--rotateAmount', rotateAmount + 'deg');
+                img.style.setProperty('--duration', duration);
+                
+                container.appendChild(img);
+                
+                setTimeout(() => img.remove(), parseFloat(duration) * 1000);
+            }
+
+            // Create new images more frequently
+            setInterval(createImage, 400); // Adjusted timing
+            
+            // Create more initial images with better distribution
+            for(let i = 0; i < 20; i++) {
+                setTimeout(createImage, i * 100);
+            }
+        }
+
+        // Initialize all animations
+        window.addEventListener('DOMContentLoaded', () => {
+            createFloatingHearts();
+            createSparkles();
+            createBubbles();
+            createFloatingImages();
+        });
+
+        // Add this to your existing script section
+        function checkSecret() {
+            const answer = prompt("What's my favorite name for you? (Hint: It starts with 'P')");
+            const correctAnswer = "Pagalo"; // Change this to your desired secret password
+            
+            if (answer && answer.toLowerCase() === correctAnswer.toLowerCase()) {
+                showSecret();
+            } else {
+                alert("That's not quite right! Try again, my love! 💕");
+            }
+        }
+
+        function showSecret() {
+            const message = document.getElementById('secretMessage');
+            message.classList.add('show');
+            
+            // Add floating hearts animation when message shows
+            createFloatingHearts(true); // Intense hearts animation
+        }
+
+        function closeSecret() {
+            const message = document.getElementById('secretMessage');
+            message.classList.remove('show');
+        }
+
+        // Close secret message when clicking outside
+        window.addEventListener('click', function(e) {
+            const message = document.getElementById('secretMessage');
+            if (e.target !== message && !message.contains(e.target) && 
+                !e.target.classList.contains('secret-trigger')) {
+                closeSecret();
+            }
+        });
+    </script>
 </body>
 </html>
